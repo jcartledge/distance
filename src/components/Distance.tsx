@@ -15,20 +15,6 @@ const convertToLongLat = (
   latitude: Number(position.latitude),
 });
 
-interface DebugProps {
-  label: string;
-  coords: LongLat;
-}
-
-const Debug: React.FC<DebugProps> = ({
-  label,
-  coords: { longitude, latitude },
-}) => (
-  <div>
-    {label} - Long:{longitude} - Lat:{latitude}
-  </div>
-);
-
 const Distance: React.FC<DistanceProps> = ({ homeLongLat }) => {
   const currentLongLat = convertToLongLat(
     usePosition(true, {
@@ -37,14 +23,13 @@ const Distance: React.FC<DistanceProps> = ({ homeLongLat }) => {
       maximumAge: 5000,
     })
   );
-  const distance = haversine(homeLongLat, currentLongLat, {
-    unit: "meter",
-  });
+  const distance =
+    haversine(homeLongLat, currentLongLat, {
+      unit: "meter",
+    }) / 1000;
   return (
     <>
-      <div>Distance: {distance}</div>
-      <Debug label="home" coords={homeLongLat} />
-      <Debug label="current" coords={currentLongLat} />
+      <div>Distance: {distance.toFixed(2)} km</div>
     </>
   );
 };
