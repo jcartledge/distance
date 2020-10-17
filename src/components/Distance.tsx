@@ -6,12 +6,28 @@ interface DistanceProps {
   homeLocation: Position;
 }
 
+type LongLat = Pick<Coordinates, "longitude" | "latitude">;
+
 const convertToCoords = (
   position: ReturnType<typeof usePosition>
-): Pick<Coordinates, "longitude" | "latitude"> => ({
+): LongLat => ({
   longitude: Number(position.longitude),
   latitude: Number(position.latitude),
 });
+
+interface DebugProps {
+  label: string;
+  coords: LongLat;
+}
+
+const Debug: React.FC<DebugProps> = ({
+  label,
+  coords: { longitude, latitude },
+}) => (
+  <div>
+    {label} - Long:{longitude} - Lat:{latitude}
+  </div>
+);
 
 const Distance: React.FC<DistanceProps> = ({ homeLocation }) => {
   const currentLocation = convertToCoords(
@@ -21,11 +37,16 @@ const Distance: React.FC<DistanceProps> = ({ homeLocation }) => {
       maximumAge: Infinity,
     })
   );
-  const distance = haversine(
-    homeLocation.coords,
-    currentLocation as Coordinates
+  const distance = haversine(homeLocation.coords, currentLocation, {
+    unit: "meter",
+  });
+  return (
+    <>
+      <div>Distance: {distance}</div>
+      <Debug label="home" coords={homeLocation.coords} />
+      <Debug label="current" coords={currentLocation} />
+    </>
   );
-  return <>Distance: {distance}</>;
 };
 
 export default Distance;
