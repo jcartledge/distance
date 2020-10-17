@@ -2,13 +2,13 @@ import haversine from "haversine";
 import React from "react";
 import { usePosition } from "use-position";
 
-interface DistanceProps {
-  homeLocation: Position;
-}
-
 type LongLat = Pick<Coordinates, "longitude" | "latitude">;
 
-const convertToCoords = (
+interface DistanceProps {
+  homeLongLat: LongLat;
+}
+
+const convertToLongLat = (
   position: ReturnType<typeof usePosition>
 ): LongLat => ({
   longitude: Number(position.longitude),
@@ -29,22 +29,22 @@ const Debug: React.FC<DebugProps> = ({
   </div>
 );
 
-const Distance: React.FC<DistanceProps> = ({ homeLocation }) => {
-  const currentLocation = convertToCoords(
+const Distance: React.FC<DistanceProps> = ({ homeLongLat }) => {
+  const currentLongLat = convertToLongLat(
     usePosition(true, {
       enableHighAccuracy: true,
-      timeout: 0,
-      maximumAge: Infinity,
+      timeout: Infinity,
+      maximumAge: 5000,
     })
   );
-  const distance = haversine(homeLocation.coords, currentLocation, {
+  const distance = haversine(homeLongLat, currentLongLat, {
     unit: "meter",
   });
   return (
     <>
       <div>Distance: {distance}</div>
-      <Debug label="home" coords={homeLocation.coords} />
-      <Debug label="current" coords={currentLocation} />
+      <Debug label="home" coords={homeLongLat} />
+      <Debug label="current" coords={currentLongLat} />
     </>
   );
 };

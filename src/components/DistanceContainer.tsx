@@ -6,7 +6,11 @@ import NoHomeLocation from "./NoHomeLocation";
 
 const DistanceContainer: React.FC = () => {
   const { homeLocation } = useContext(SettingsContext);
-  return isPositionSet(homeLocation) ? <Distance homeLocation={homeLocation} /> : <NoHomeLocation />;
-}
+  return isPositionSet(homeLocation) ? (
+    <Distance homeLongLat={homeLocation.coords} />
+  ) : (
+    <NoHomeLocation />
+  );
+};
 
 export default DistanceContainer;
