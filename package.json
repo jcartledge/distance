@@ -13,8 +13,10 @@
     "haversine": "^1.1.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-router-dom": "^5.2.0",
+    "react-icons": "^3.11.0",
+    "react-map-gl": "^5.2.9",
     "react-scripts": "3.4.3",
+    "styled-components": "^5.2.0",
     "typescript": "~3.7.2",
     "use-position": "^0.0.7"
   },
@@ -41,7 +43,9 @@
   },
   "devDependencies": {
     "@types/haversine": "^1.1.4",
-    "@types/react-router-dom": "^5.1.6",
+    "@types/react-icons": "^3.0.0",
+    "@types/react-map-gl": "^5.2.7",
+    "@types/styled-components": "^5.1.4",
     "@types/use-position": "^0.0.0"
   }
 }
